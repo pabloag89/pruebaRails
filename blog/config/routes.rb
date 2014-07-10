@@ -1,9 +1,29 @@
 Rails.application.routes.draw do
-  get 'welcome/index'
 
-  # Pol's made
+  # resources :posts   # Recurso estándar con el que no hace falta definir todas las rutas comentadas de abajo
+
+  resources :posts do
+    resources :comments
+  end
+
+  root :to => "welcome#index"   # Dirige la página principal a /welcome/index
+
+=begin
+  get 'welcome/index'  
+ 
   get "posts/new"
   post "posts" => "posts#create"
+  # get "posts/:id" => "posts#show", :as => :post  # Da error en Rails 4
+  patch "posts/:id" => "posts#show", :as => :post
+  # La opción :as le dice al método get que queremos hacer que los asistentes de ruteo llamados post_url y post_path 
+  # estén disponibles para nuestra aplicación. Éstos son los métodos que form_for necesita cuando estamos editando un artículo 
+  # y que ahora están disponibles para actualizar los artículos.
+  get "posts" => "posts#index"
+  get "posts/:id/edit" => "posts#edit"
+  put "posts/:id" => "posts#update"
+  delete "posts/:id" => "posts#destroy"
+=end
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
